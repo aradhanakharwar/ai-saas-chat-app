@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem("token"));
   const BASE_URL = process.env.REACT_APP_API_URL;
   
 
@@ -21,7 +19,7 @@ function Chat() {
         { message },
         {
           headers: {
-            Authorization: token,
+            Authorization: localStorage.getItem("token"),
           },
         }
       );
@@ -55,8 +53,9 @@ function Chat() {
       localStorage.removeItem("selectedChat");
     }
 
+    
     fetchHistory();
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -66,7 +65,7 @@ function Chat() {
         `${BASE_URL}/api/chats`, // ✅ SAME AS HISTORY PAGE
         {
           headers: {
-            Authorization: token, // same as yours
+            Authorization: localStorage.getItem("token"), // same as yours
           },
         }
       );
