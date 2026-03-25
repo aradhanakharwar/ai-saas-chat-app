@@ -3,6 +3,7 @@ import axios from "axios";
 
 function History() {
   const [chats, setChats] = useState([]);
+  const BASE_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchHistory();

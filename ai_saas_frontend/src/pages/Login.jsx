@@ -3,6 +3,7 @@ import axios from "axios";
 
 function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
+    const BASE_URL = process.env.REACT_APP_API_URL;
 
     const handleLogin = async () => {
         try {
