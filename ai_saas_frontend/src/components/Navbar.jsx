@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
-    navigate("/");
+    window.location = "/";
   };
 
   return (
@@ -16,8 +15,12 @@ function Navbar() {
       <h2 style={styles.logo}>🤖 AI Assistant</h2>
 
       <div style={styles.links}>
+        {token && (
+          <>
         <Link to="/chat" style={styles.link}>Chat</Link>
         <Link to="/history" style={styles.link}>History</Link>
+        </>
+        )}
 
         {token && (
           <button style={styles.logout} onClick={handleLogout}>

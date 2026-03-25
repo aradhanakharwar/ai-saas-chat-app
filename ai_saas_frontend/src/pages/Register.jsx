@@ -1,45 +1,110 @@
 import { useState } from "react";
 
 function Register() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const register = async () => {
-    await fetch("http://localhost:5000/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ name, email, password })
-    });
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    window.location = "/";
-  };
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      alert("Registered successfully!");
+      window.location = "/";
+
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
   return (
-    <div className="container">
-      <h2>Register</h2>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Create Account</h2>
 
-      <input
-        placeholder="Name"
-        onChange={(e) => setName(e.target.value)}
-      />
+        <input
+          style={styles.input}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          style={styles.input}
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <button onClick={register}>Register</button>
+        <button style={styles.button} onClick={register}>
+          Register
+        </button>
+        <p style={styles.text}>
+          Already an account?{" "}
+          <a href="/" style={styles.link}>
+            Login
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "linear-gradient(135deg, #1f2937, #111827)",
+  },
+
+  card: {
+    background: "#fff",
+    padding: "30px",
+    borderRadius: "12px",
+    width: "320px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
+  },
+
+  title: {
+    textAlign: "center",
+    marginBottom: "10px",
+  },
+
+  input: {
+    padding: "10px",
+    borderRadius: "6px",
+    border: "1px solid #ccc",
+    fontSize: "14px",
+  },
+
+  button: {
+    background: "#4f46e5",
+    color: "#fff",
+    border: "none",
+    padding: "10px",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "500",
+  },
+  link: {
+    color: "#4f46e5",
+    textDecoration: "none",
+  },
+};
 
 export default Register;
