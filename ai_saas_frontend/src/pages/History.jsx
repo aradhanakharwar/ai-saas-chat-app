@@ -11,7 +11,7 @@ function History() {
   const fetchHistory = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/chats",
+        `${BASE_URL}/api/chats`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),

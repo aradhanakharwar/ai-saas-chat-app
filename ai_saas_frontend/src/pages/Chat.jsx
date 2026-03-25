@@ -7,8 +7,7 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [history, setHistory] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token"));
-
-  console.log("ffffffffff",token);
+  const BASE_URL = process.env.REACT_APP_API_URL;
   
 
   const sendMessage = async () => {
@@ -18,7 +17,7 @@ function Chat() {
     setMessages((prev) => [...prev, userMsg]);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/chat",
+      const res = await axios.post(`${BASE_URL}/api/chat`,
         { message },
         {
           headers: {
@@ -64,7 +63,7 @@ function Chat() {
   const fetchHistory = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/chats", // ✅ SAME AS HISTORY PAGE
+        `${BASE_URL}/api/chats`, // ✅ SAME AS HISTORY PAGE
         {
           headers: {
             Authorization: token, // same as yours
